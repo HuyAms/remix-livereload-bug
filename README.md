@@ -1,52 +1,34 @@
-# Welcome to Remix!
+# Remix hot reload bug
 
-- [Remix Docs](https://remix.run/docs)
+I init this project with `npx create-remix@latest` and choose Netlify as the hosting option. 
 
-## Netlify Setup
+I try to update the h1 text with my VSCode. I expect the hot reload would work but it doesn't.
 
-1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
+To run the project
 
-```sh
-npm i -g netlify-cli
 ```
-
-If you have previously installed the Netlify CLI, you should update it to the latest version:
-
-```sh
-npm i -g netlify-cli@latest
-```
-
-2. Sign up and log in to Netlify:
-
-```sh
-netlify login
-```
-
-3. Create a new site:
-
-```sh
-netlify init
-```
-
-## Development
-
-The Netlify CLI starts your app in development mode, rebuilding assets on file changes.
-
-```sh
+npm install
 npm run dev
 ```
 
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
+You may need to try to edit the text few times to reproduce the hot-reload bug.
 
-## Deployment
+We would see the bug when it stops working and this error appears.
 
-There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
+```
+/usr/local/lib/node_modules/netlify-cli/node_modules/netlify-redirector/lib/redirects.js:116
+      throw ex;
+      ^
 
-```sh
-npm run build
-# preview deployment
-netlify deploy
-
-# production deployment
-netlify deploy --prod
+TypeError: Cannot read properties of undefined (reading 'objectMode')
+    at DestroyableTransform.Writable.write (/Users/ht/Desktop/remix-hotreload-bug/node_modules/readable-stream/lib/_stream_writable.js:317:22)
+    at PassThrough.ondata (node:internal/streams/readable:777:22)
+    at PassThrough.emit (node:events:390:28)
+    at PassThrough.emit (node:domain:475:12)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at PassThrough.Readable.push (node:internal/streams/readable:234:10)
+    at node:internal/streams/transform:192:12
+    at PassThrough._transform (node:internal/streams/passthrough:46:3)
+    at PassThrough.Transform._write (node:internal/streams/transform:184:23)
 ```
